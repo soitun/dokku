@@ -40,6 +40,7 @@ echo 'server_names_hash_bucket_size 512;' >| /etc/nginx/conf.d/server_names_hash
 gpasswd -M "$(egrep ^adm: /etc/group | awk -F ":" '{ print $4 }')" dokku
 chgrp -R dokku /var/log/nginx
 chmod g+r /var/log/nginx
+[[ -f /etc/logrotate.d/nginx ]] && sed -i -e 's/create 0640 www-data adm/create 0640 www-data dokku/g' /etc/logrotate.d/nginx
 
 # patch broken nginx 1.8.0 logrotate
 [[ -f /etc/logrotate.d/nginx ]] && sed -i -e 's/invoke-rc.d/service/g' /etc/logrotate.d/nginx
